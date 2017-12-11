@@ -22,7 +22,7 @@ contract PlayerWallet is BasicWallet {
     function() public payable {}
     
     function showBalance() public view returns(uint amount) {
-        if(owner == msg.sender || walletManager == msg.sender) {
+        if (owner == msg.sender || walletManager == msg.sender) {
             return this.balance;   
         }
         
