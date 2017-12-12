@@ -44,11 +44,11 @@ contract('TeamWallet', (accounts) => {
     assert.equal(newName, updatedName, 'name was not updated');
   });
 
-  describe('add & remove player wallet', () => {
-    it('add player wallet', async() => {      
-      const player1Name = 'Player_1';
-      const playerOwner = ACC_1;
-  
+  describe('add & remove player wallet', () => {   
+    const player1Name = 'Player_1';
+    const playerOwner = ACC_1;
+
+    it('add player wallet', async() => {  
       //  return address
       let addr = await teamWallet.addPlayerWallet.call(player1Name, playerOwner);
       assert.isTrue(addr.length > 10, 'wrong address');
@@ -80,10 +80,7 @@ contract('TeamWallet', (accounts) => {
       assert.equal(await teamWallet.owner.call(), await player.walletManager.call(), 'wrong walletManager')
     });
   
-    it('remove player wallet', async() => {
-      const player1Name = 'Player_1';
-      const playerOwner = ACC_1;
-  
+    it('remove player wallet', async() => {  
       //  check result using call()
       let addr = await teamWallet.addPlayerWallet.call(player1Name, playerOwner);
       let result = await teamWallet.removePlayerWallet.call(addr);
@@ -105,6 +102,17 @@ contract('TeamWallet', (accounts) => {
       assert.isUndefined(playerWallet.address, 'wallet must be added');
       
     });
+  });
+
+  it('player wallet name', async() =>{   
+    const player1Name = 'Player_1';
+    const playerOwner = ACC_1;
+
+    let tx = await teamWallet.addPlayerWallet(player1Name, playerOwner);
+    let addr = tx.logs[0].args.walletAddress;
+
+    let name = await teamWallet.playerWalletName.call(addr);
+    assert.equal(name, player1Name, 'name must be equal');
   });
 
 });
