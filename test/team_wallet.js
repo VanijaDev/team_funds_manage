@@ -1,4 +1,5 @@
 const TeamWallet = artifacts.require('TeamWallet.sol');
+const PlayerWallet = artifacts.require('PlayerWallet.sol');
 
 contract('TeamWallet', (accounts) => {
   let teamWallet;
@@ -7,7 +8,7 @@ contract('TeamWallet', (accounts) => {
   const ACC_1 = accounts[1];
   const ACC_2 = accounts[2];
 
-  const TEAM_WALLET_INITIAL_DEPOSIT = web3.toWei(0.1, 'ether');
+  const TEAM_WALLET_INITIAL_DEPOSIT = web3.toWei(1, 'finney');
   const TEAM_WALLET_INITIAL_NAME = 'Cool Team';
    
   before('setup', async() => {
@@ -43,22 +44,36 @@ contract('TeamWallet', (accounts) => {
     assert.equal(newName, updatedName, 'name was not updated');
   });
 
-  describe('add player wallet', () => {
+  it('add player wallet', async() => {      
     const player1Name = 'Player_1';
+    const playerOwner = ACC_1;
 
-    it('return address on adding', async() => {      
-      let addr = await teamWallet.addPlayerWallet.call(player1Name, ACC_1);
-      assert.isTrue(addr.length > 10, 'wrong address');
-    });
+    //  return address
+    let addr = await teamWallet.addPlayerWallet.call(player1Name, playerOwner);
+    assert.isTrue(addr.length > 10, 'wrong address');
 
-    it('LogPlayerWalletAdded called', async() => {
-      let tx = await teamWallet.addPlayerWallet(player1Name, ACC_1);
-      let logs = tx.logs;
-      assert.equal(logs.length, 1, 'should be one event');
-      assert.equal(logs[0].event, 'LogPlayerWalletAdded', 'shold be LogPlayerWalletAdded event');
-      assert.include(web3.toAscii(logs[0].args.name), player1Name, 'wrong player wallet name'); //  not sure if it is correct check
-      assert.isTrue(logs[0].args.walletAddress > 10, 'wrong address');
-    });
+    //  LogPlayerWalletAdded
+    let tx = await teamWallet.addPlayerWallet(player1Name, playerOwner);
+    let logs = tx.logs;
+    assert.equal(logs.length, 1, 'should be one event');
+    assert.equal(logs[0].event, 'LogPlayerWalletAdded', 'shold be LogPlayerWalletAdded event');
+    assert.include(web3.toAscii(logs[0].args.name), player1Name, 'wrong player wallet name'); //  not sure if it is correct check
+    assert.isTrue(logs[0].args.walletAddress > 10, 'wrong address');
+
+    //  added to playerWallets
+    let player = await PlayerWallet.at(addr);
+
+    //  playerName
+    assert.equal(await player.playerName.call(), logs[0].args.name, 'player with wrong name was created');
+    
+    //  team
+    assert.equal(await player.team.call(), teamWallet.address, 'wrong team address');
+
+    //  , address _owner
+    assert.equal(await player.owner.call(), playerOwner, 'wrong owner')
+
+    //  walletManager
+    assert.equal(await teamWallet.owner.call(), await player.walletManager.call(), 'wrong walletManager')
   });
 
 });
