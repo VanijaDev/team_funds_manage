@@ -3,5 +3,5 @@ var TeamWallet = artifacts.require("./TeamWallet.sol");
 
 module.exports = function(deployer) {
   deployer.deploy(Migrations);
-  deployer.deploy(TeamWallet, 'Cool Team', {value: 100});
+  deployer.deploy(TeamWallet, 'Cool Team', {value: web3.toWei(1, 'ether')});
 };
