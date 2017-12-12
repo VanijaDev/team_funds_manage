@@ -43,4 +43,22 @@ contract('TeamWallet', (accounts) => {
     assert.equal(newName, updatedName, 'name was not updated');
   });
 
+  describe('add player wallet', () => {
+    const player1Name = 'Player_1';
+
+    it('return address on adding', async() => {      
+      let addr = await teamWallet.addPlayerWallet.call(player1Name, ACC_1);
+      assert.isTrue(addr.length > 10, 'wrong address');
+    });
+
+    it('LogPlayerWalletAdded called', async() => {
+      let tx = await teamWallet.addPlayerWallet(player1Name, ACC_1);
+      let logs = tx.logs;
+      assert.equal(logs.length, 1, 'should be one event');
+      assert.equal(logs[0].event, 'LogPlayerWalletAdded', 'shold be LogPlayerWalletAdded event');
+      assert.include(web3.toAscii(logs[0].args.name), player1Name, 'wrong player wallet name'); //  not sure if it is correct check
+      assert.isTrue(logs[0].args.walletAddress > 10, 'wrong address');
+    });
+  });
+
 });
