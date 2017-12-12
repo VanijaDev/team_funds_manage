@@ -7,7 +7,7 @@ contract('TeamWallet', (accounts) => {
   const ACC_1 = accounts[1];
   const ACC_2 = accounts[2];
 
-  const TEAM_WALLET_INITIAL_DEPOSIT = web3.toWei(1, 'ether');
+  const TEAM_WALLET_INITIAL_DEPOSIT = web3.toWei(0.1, 'ether');
   const TEAM_WALLET_INITIAL_NAME = 'Cool Team';
    
   before('setup', async() => {
@@ -16,7 +16,7 @@ contract('TeamWallet', (accounts) => {
   });
 
   afterEach('reset', async() => {
-    let inst = await TeamWallet.new(TEAM_WALLET_INITIAL_NAME, {value: web3.toWei(1, 'ether')});
+    let inst = await TeamWallet.new(TEAM_WALLET_INITIAL_NAME, {value: TEAM_WALLET_INITIAL_DEPOSIT});
     teamWallet = inst;
   });
 
