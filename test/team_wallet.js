@@ -122,13 +122,21 @@ contract('TeamWallet', (accounts) => {
   it('transfer to player wallet', async() => {
     const transferAmount = TEAM_WALLET_INITIAL_DEPOSIT / 5;
 
+    //  create new player wallet
     let tx = await teamWallet.addPlayerWallet(player1Name, player1Owner);
     let addr = tx.logs[0].args.walletAddress;
 
+    //  check call() result
     let result = await teamWallet.transferToPlayerWallet.call(addr, transferAmount);
-    assert.isTrue(result, 'transfer was not successfull');
+    assert.isTrue(result, 'transfer should be successfull');
 
+    // fail if not owner
+    asserts.throws(teamWallet.transferToPlayerWallet(addr, transferAmount, {from: ACC_2}, 'should fail, because not owner sent'));
 
+    //  send and check player wallet balance
+    await teamWallet.transferToPlayerWallet(addr, transferAmount);
+    let bal = await web3.eth.getBalance(addr);
+    assert.equal(bal, transferAmount, 'wrong balance amount');
   });
 
 });
