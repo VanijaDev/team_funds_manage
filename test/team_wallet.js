@@ -1,7 +1,10 @@
 const TeamWallet = artifacts.require('TeamWallet.sol');
 const PlayerWallet = artifacts.require('PlayerWallet.sol');
+const Asserts = require('./helpers/asserts.js');
 
 contract('TeamWallet', (accounts) => {
+  let asserts = Asserts(assert);
+
   let teamWallet;
 
   const TEAM_WALLET_OWNER = accounts[0];
@@ -49,11 +52,13 @@ contract('TeamWallet', (accounts) => {
 
   describe('add & remove player wallet', async() => {
     it('add player wallet', async() => {  
+      
       //  return address
       let addr = await teamWallet.addPlayerWallet.call(player1Name, player1Owner);
       assert.isTrue(addr.length > 10, 'wrong address');
 
-      assert.throws(await teamWallet.addPlayerWallet(player1Name, player1Owner, {from: ACC_2}), 'should throw, because only owner can create');
+      //  only owner can create new team wallet
+      asserts.throws(teamWallet.addPlayerWallet(player1Name, player1Owner, {from: ACC_2}), 'should throw, because not owner');
   
       //  LogPlayerWalletAdded
       let tx = await teamWallet.addPlayerWallet(player1Name, player1Owner);
