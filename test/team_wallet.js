@@ -10,6 +10,9 @@ contract('TeamWallet', (accounts) => {
 
   const TEAM_WALLET_INITIAL_DEPOSIT = web3.toWei(1, 'finney');
   const TEAM_WALLET_INITIAL_NAME = 'Cool Team';
+     
+  const player1Name = 'Player_1';
+  const player1Owner = ACC_1;
    
   before('setup', async() => {
     let inst = await TeamWallet.deployed();
@@ -44,17 +47,16 @@ contract('TeamWallet', (accounts) => {
     assert.equal(newName, updatedName, 'name was not updated');
   });
 
-  describe('add & remove player wallet', () => {   
-    const player1Name = 'Player_1';
-    const playerOwner = ACC_1;
-
+  describe('add & remove player wallet', async() => {
     it('add player wallet', async() => {  
       //  return address
-      let addr = await teamWallet.addPlayerWallet.call(player1Name, playerOwner);
+      let addr = await teamWallet.addPlayerWallet.call(player1Name, player1Owner);
       assert.isTrue(addr.length > 10, 'wrong address');
+
+      assert.throws(await teamWallet.addPlayerWallet(player1Name, player1Owner, {from: ACC_2}), 'should throw, because only owner can create');
   
       //  LogPlayerWalletAdded
-      let tx = await teamWallet.addPlayerWallet(player1Name, playerOwner);
+      let tx = await teamWallet.addPlayerWallet(player1Name, player1Owner);
       let logs = tx.logs;
       assert.equal(logs.length, 1, 'should be one event');
       assert.equal(logs[0].event, 'LogPlayerWalletAdded', 'shold be LogPlayerWalletAdded event');
@@ -74,7 +76,7 @@ contract('TeamWallet', (accounts) => {
       assert.equal(await player.team.call(), teamWallet.address, 'wrong team address');
   
       //  owner
-      assert.equal(await player.owner.call(), playerOwner, 'wrong owner')
+      assert.equal(await player.owner.call(), player1Owner, 'wrong owner')
   
       //  walletManager
       assert.equal(await teamWallet.owner.call(), await player.walletManager.call(), 'wrong walletManager')
@@ -82,12 +84,12 @@ contract('TeamWallet', (accounts) => {
   
     it('remove player wallet', async() => {  
       //  check result using call()
-      let addr = await teamWallet.addPlayerWallet.call(player1Name, playerOwner);
+      let addr = await teamWallet.addPlayerWallet.call(player1Name, player1Owner);
       let result = await teamWallet.removePlayerWallet.call(addr);
       assert.isTrue(result, 'should be removed');
   
       //  check log
-      let tx = await teamWallet.addPlayerWallet(player1Name, playerOwner);
+      let tx = await teamWallet.addPlayerWallet(player1Name, player1Owner);
       let playerWalletAddress = tx.logs[0].args.walletAddress
       
       tx = await teamWallet.removePlayerWallet(playerWalletAddress);
@@ -104,15 +106,24 @@ contract('TeamWallet', (accounts) => {
     });
   });
 
-  it('player wallet name', async() =>{   
-    const player1Name = 'Player_1';
-    const playerOwner = ACC_1;
-
-    let tx = await teamWallet.addPlayerWallet(player1Name, playerOwner);
+  it('player wallet name', async() => {
+    let tx = await teamWallet.addPlayerWallet(player1Name, player1Owner);
     let addr = tx.logs[0].args.walletAddress;
 
     let name = await teamWallet.playerWalletName.call(addr);
     assert.equal(name, player1Name, 'name must be equal');
+  });
+
+  it('transfer to player wallet', async() => {
+    const transferAmount = TEAM_WALLET_INITIAL_DEPOSIT / 5;
+
+    let tx = await teamWallet.addPlayerWallet(player1Name, player1Owner);
+    let addr = tx.logs[0].args.walletAddress;
+
+    let result = await teamWallet.transferToPlayerWallet.call(addr, transferAmount);
+    assert.isTrue(result, 'transfer was not successfull');
+
+
   });
 
 });
