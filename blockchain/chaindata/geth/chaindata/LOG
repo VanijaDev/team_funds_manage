@@ -4,3 +4,25 @@
 15:03:18.322243 version@stat F·[] S·0B[] Sc·[]
 15:03:18.322517 db@janitor F·2 G·0
 15:03:18.322565 db@open done T·2.380792ms
+=============== Dec 14, 2017 (EET) ===============
+14:51:10.269560 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:51:10.270580 version@stat F·[] S·0B[] Sc·[]
+14:51:10.270623 db@open opening
+14:51:10.270757 journal@recovery F·1
+14:51:10.272865 journal@recovery recovering @1
+14:51:10.273775 memdb@flush created L0@2 N·9 S·548B "H/\xb1..\xf0\x18\x1a,v3":"r\x00\x00..\xf0\x18\x1a,v5"
+14:51:10.274919 version@stat F·[1] S·548B[548B] Sc·[0.25]
+14:51:10.276385 db@janitor F·3 G·0
+14:51:10.276417 db@open done T·5.776498ms
+14:52:09.605891 db@close closing
+14:52:09.606099 db@close done T·204.154µs
+=============== Dec 14, 2017 (EET) ===============
+14:52:14.286283 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:52:14.286493 version@stat F·[1] S·548B[548B] Sc·[0.25]
+14:52:14.286521 db@open opening
+14:52:14.286591 journal@recovery F·1
+14:52:14.287467 journal@recovery recovering @3
+14:52:14.288213 memdb@flush created L0@5 N·3 S·290B "Blo..ion,v12":"dbU..ata,v11"
+14:52:14.289310 version@stat F·[2] S·838B[838B] Sc·[0.50]
+14:52:14.290408 db@janitor F·4 G·0
+14:52:14.290438 db@open done T·3.901757ms

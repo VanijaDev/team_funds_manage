@@ -1,0 +1,18 @@
+=============== Dec 14, 2017 (EET) ===============
+14:51:12.389973 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:51:12.392768 db@open opening
+14:51:12.396014 version@stat F·[] S·0B[] Sc·[]
+14:51:12.396307 db@janitor F·2 G·0
+14:51:12.396337 db@open done T·3.526723ms
+14:52:09.606407 db@close closing
+14:52:09.606748 db@close done T·338.967µs
+=============== Dec 14, 2017 (EET) ===============
+14:52:16.395575 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:52:16.395869 version@stat F·[] S·0B[] Sc·[]
+14:52:16.395910 db@open opening
+14:52:16.396001 journal@recovery F·1
+14:52:16.398654 journal@recovery recovering @1
+14:52:16.409662 memdb@flush created L0@2 N·3554 S·122KiB "n:\x00..ver,v2266":"version,v1"
+14:52:16.411560 version@stat F·[1] S·122KiB[122KiB] Sc·[0.25]
+14:52:16.412513 db@janitor F·3 G·0
+14:52:16.412541 db@open done T·16.60999ms

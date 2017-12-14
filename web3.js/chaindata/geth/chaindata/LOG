@@ -1,0 +1,8 @@
+=============== Nov 17, 2017 (EET) ===============
+14:34:44.787109 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+14:34:44.787634 db@open opening
+14:34:44.788364 version@stat F·[] S·0B[] Sc·[]
+14:34:44.788597 db@janitor F·2 G·0
+14:34:44.788639 db@open done T·987.169µs
+14:35:12.082853 db@close closing
+14:35:12.083537 db@close done T·680.517µs
