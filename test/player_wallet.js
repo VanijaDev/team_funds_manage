@@ -69,7 +69,35 @@ contract('PlayerWallet', (accounts) => {
   });
   
   describe('transfer method', () => {
-    
+    const transferAmount = TEAM_WALLET_INITIAL_DEPOSIT / 5;
+
+    beforeEach('create and deposit new Player wallet', async () => {
+      await teamWallet.transferToPlayerWallet(playerWallet.address, transferAmount);
+    });
+
+    it('transfer result', async () => {
+      let result = await playerWallet.transfer.call(TEAM_WALLET_OWNER, (transferAmount / 2), {from: player1Owner});
+      assert.isTrue(result, 'transfer should success');
+
+      asserts.throws(playerWallet.transfer(TEAM_WALLET_OWNER, (transferAmount / 2), 'transfer should fail - not playerWallet owner sent'));
+      asserts.throws(playerWallet.transfer(TEAM_WALLET_OWNER, (transferAmount * 2), {from: player1Owner}), 'transfer should fail - sends too much');
+      asserts.throws(playerWallet.transfer(0x0, (transferAmount / 2), {from: player1Owner}), 'transfer should fail - bad address');
+
+    });
+
+    it('check balances after transfer', async () => {
+      let playerBalanceBefore = await web3.eth.getBalance(playerWallet.address).toNumber();
+      let acc2BalanceBefore = await web3.eth.getBalance(ACC_2).toNumber();
+      let amountToTransfer = transferAmount / 2;
+
+      await playerWallet.transfer(ACC_2, amountToTransfer, {from: player1Owner});
+      
+      let playerBalanceAfter = await web3.eth.getBalance(playerWallet.address).toNumber();
+      let acc2BalanceAfter = await web3.eth.getBalance(ACC_2).toNumber();
+
+      assert.equal(playerBalanceAfter, (playerBalanceBefore - amountToTransfer), 'wrong player wallet balance after tx');
+      assert.equal(acc2BalanceAfter, (acc2BalanceBefore + amountToTransfer), 'wrong acc2 balance after tx');
+    });
   });
 
 });
