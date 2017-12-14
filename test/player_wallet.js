@@ -51,18 +51,25 @@ contract('PlayerWallet', (accounts) => {
     assert.include(await playerWallet.getPlayerName.call(), web3.fromAscii(player1Name), 'wrong player name');
   });
 
-  it('show balance should succeed', async() => {
+  describe('show balance', () => {
     const transferAmount = TEAM_WALLET_INITIAL_DEPOSIT / 5;
-    await teamWallet.transferToPlayerWallet(playerWallet.address, transferAmount);
 
-    let bal = await playerWallet.showBalance.call();
-    assert.equal(bal.toNumber(), transferAmount, 'wrong balance');
+    it('show balance should succeed', async () => {
+      await teamWallet.transferToPlayerWallet(playerWallet.address, transferAmount);
+  
+      let bal = await playerWallet.showBalance.call();
+      assert.equal(bal.toNumber(), transferAmount, 'wrong balance');
+    });
+  
+    it('show balance should show only to player wallet owner or manager', async () => {
+      await teamWallet.transferToPlayerWallet(playerWallet.address, transferAmount);
+  
+      asserts.throws(playerWallet.showBalance({from: ACC_2}));
+    });
+  });
+  
+  describe('transfer method', () => {
+    
   });
 
-  it('show balance should show only to player wallet owner or manager', async() => {
-    const transferAmount = TEAM_WALLET_INITIAL_DEPOSIT / 5;
-    await teamWallet.transferToPlayerWallet(playerWallet.address, transferAmount);
-
-    asserts.throws(playerWallet.showBalance({from: ACC_2}));
-  });
 });
