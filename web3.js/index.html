@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>My DApp</title>
+        <title>Team funds manager</title>
         <script src="dist/web3.min.js"></script>
         <script type="text/javascript">
             if (typeof web3 !== 'undefined') {
@@ -10,6 +10,45 @@
                 // set the provider you want from Web3.providers
                 web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
             }
+
+            function onloadFunction() {
+                hideElement("Team");
+            }
+            
+            ///****************  enable / disable element ***************//
+            function disableElement(elementID) {
+                document.getElementById(elementID).classList.add('disabledElement');
+            }
+            
+            function enableElement(elementID) {
+                document.getElementById(elementID).classList.remove('disabledElement');
+            }
+
+            ///****************  hide / show element ***************//
+            function hideElement(elementID) {
+                document.getElementById(elementID).classList.add('hiddenElement');
+            }
+            
+            function showElement(elementID) {
+                document.getElementById(elementID).classList.remove('hiddenElement');
+            }
+
+            ///***************  create new Team **********//
+
+            function createTeam() {
+                let name = document.getElementById("CreateTeamName").value;
+                let amount = document.getElementById("CreateTeamBalance").value;
+
+                if (name.length == 0 || amount.length == 0) {
+                    alert("Please, fill name & amount");
+                    return;
+                }
+
+                
+            }
+
+
+
 
             function getBalance() {
                 web3.eth.getBalance(web3.eth.accounts[0], function(error, result) {
@@ -21,10 +60,84 @@
                 });
             }
         </script>
+        
+        <style>
+            .disabledElement { 
+                pointer-events: none; 
+                opacity: 0.5;
+            }
+
+            .hiddenElement { 
+                pointer-events: none; 
+                opacity: 0;
+            }
+        </style>
     </head>
-    <body>
-        <h1>This is my balance</h1>
-        <button onclick="getBalance()">Update my balance</button>
-        <span id="myBalance"></span> in Ether
+    <body onload="onloadFunction()">
+        <div style="background-color: lightGray">
+            <h2>Team Wallet</h2>
+            <div id="CreateTeam">
+                <button id="CreateTeamButton" onclick="createTeam()">Create Team</button>
+                <input type="text" id="CreateTeamName"  placeholder="Team name">
+                <span> with balance </span>
+                <input type="text" id="CreateTeamBalance"  placeholder="balance (Eth)">
+            </div>
+            <div id="Team">
+                <div style="width: 300px; background-color: gray; float: left;">
+                    <div>
+                        <span>name: </span>
+                        <span id="TeamName">...</span>
+                    </div>
+                    <div>
+                        <span>balance: </span>
+                        <span id="TeamBalance">...</span>
+                    </div>
+                </div>
+                <div style="background-color:bisque; margin-left: 300px;">
+                    <button>Add Player wallet</button>
+                    <input type="text" id="AddPlayerWalletName" placeholder="new Name">
+                    <br/>
+                    <button>Remove Player wallet</button>
+                    <input type="text" id="RemovePlayerWalletName"  placeholder="address">
+                    <br/>
+                    <button>Transfer</button>
+                    <input type="text" id="TransferTeamAmount"  placeholder="amount (Eth)">
+                    <span> to </span>                
+                    <input type="text" id="TransferAddress"  placeholder="address">
+                </div>
+            </div>
+        </div>
+        <div style="background-color:aqua; margin-top: 50px;">
+            <h2>Player Wallets</h2>
+            <button id="ShowAll">Show All</button>
+            <div style="background-color:brown">
+                <ul id="ShowAllNames" style="list-style-type: disc; background-color:aquamarine; float: left; margin-top: 0px; padding-right: 100px;">
+                    <li>Coffeeeeeee</li>
+                    <li>Tea</li>
+                    <li>Milk</li>
+                </ul>
+                <ul id="ShowAllAddresses" style="list-style-type: none; background-color:cadetblue; ">
+                    <li>(Coffee)</li>
+                    <li>(Tea)</li>
+                    <li>(Milk)</li>
+                </ul>
+            </div>
+            <div>
+                <button id="ShowBalance">Show balance</button>
+                <span> of </span>
+                <input type="text" id="ShowBalanceAddress"  placeholder="address">
+                <span style="margin-left: 10px">is</span>
+                <span style="margin-left: 10px">0.0</span>
+                <span style="margin-left: 10px">Eth</span>
+
+                <br/>
+                <button id="TransferPlayerBalance">Transfer</button>
+                <button id="TransferPlayerBalance" >Transfer</button>
+                <span> from </span>
+                <input type="text" id="TransferPlayerBalanceFrom"  placeholder="from address">
+                <span> to </span>
+                <input type="text" id="TransferPlayerBalanceTo"  placeholder="to address">
+            </div>
+        </div>
     </body>
 </html>
