@@ -36,6 +36,7 @@ contract PlayerWallet is BasicWallet {
         to.transfer(amount);
         
         LogTransfer(to, amount);
+        
         return true;
     }
     
