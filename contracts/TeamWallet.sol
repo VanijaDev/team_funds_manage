@@ -30,6 +30,8 @@ contract TeamWallet is BasicWallet {
     }
     
     function addPlayerWallet(bytes32 playerName, address ownerAddress) public onlyOwner returns (address) {
+      require(playerWallets[ownerAddress].getTeam() == address(0));
+
       PlayerWallet playerWallet = new PlayerWallet(playerName, ownerAddress, this, owner);
       playerWallets[address(playerWallet)] = playerWallet;
       
