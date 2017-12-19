@@ -10,6 +10,7 @@
   "dependencies": {
     "bignumber.js": "git+https://github.com/frozeman/bignumber.js-nolookahead.git",
     "crypto-js": "^3.1.4",
+    "solidity-test-util": "^1.0.8",
     "utf8": "^2.1.1",
     "xhr2": "*",
     "xmlhttprequest": "*"
@@ -84,6 +85,5 @@
       "url": "https://github.com/obscuren"
     }
   ],
-
   "license": "LGPL-3.0"
 }

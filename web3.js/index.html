@@ -11,7 +11,7 @@
                 web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
             }
 
-            ///****************  CONTRACTS ***************//
+            ///**************** CONTRACTS ***************//
             
             //  TEAM WALLET
             var teamWalletAddress = "0xaf171a9fbe57b04ebebc21d4263d48f295c4c177";
@@ -23,7 +23,7 @@
             var playerWalletABI = [{"constant":true,"inputs":[],"name":"playerName","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"moveOwnership","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"showBalance","outputs":[{"name":"amount","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"team","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getTeam","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getPlayerName","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"walletManager","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_playerName","type":"bytes32"},{"name":"_owner","type":"address"},{"name":"_team","type":"address"},{"name":"_walletManager","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"LogTransfer","type":"event"}];
             // var playerWalletInst;
             
-            ///****************  CONTRACTS ***************//
+            ///**************** CONTRACTS ***************//
 
             function onloadFunction() {
                 
