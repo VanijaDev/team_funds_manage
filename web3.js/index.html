@@ -19,14 +19,45 @@
             var teamWalletInst = web3.eth.contract(teamWalletABI).at(teamWalletAddress);
             
             //  PLAYER WALLET
-            // var playerWalletAddress;
             var playerWalletABI = [{"constant":true,"inputs":[],"name":"playerName","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"moveOwnership","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"showBalance","outputs":[{"name":"amount","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"team","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getTeam","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getPlayerName","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"walletManager","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_playerName","type":"bytes32"},{"name":"_owner","type":"address"},{"name":"_team","type":"address"},{"name":"_walletManager","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"LogTransfer","type":"event"}];
-            // var playerWalletInst;
             
             ///**************** CONTRACTS ***************//
 
             function onloadFunction() {
-                
+                updateTeamData();
+            }
+
+            function updateTeamData() {
+                //  name
+                teamWalletInst.teamName((err, res) => {
+                    if (err) {
+                        handleError(err);
+                        return;
+                    }
+
+                    document.getElementById('TeamName').innerText = res;
+                });
+
+                //  balance
+                web3.eth.getBalance(teamWalletInst.address, (err, res) => {
+                    if (err) {
+                        handleError(err);
+                        return;
+                    }
+
+                    document.getElementById('TeamBalance').innerText = web3.fromWei(res, 'ether');
+                });
+
+                //  owner 
+                teamWalletInst.owner((err, res) => {
+                    if (err) {
+                        handleError(err);
+                        return;
+                    }
+
+                    document.getElementById('TeamOwner').innerText = res;
+                });
+
             }
             
             ///****************  enable / disable element ***************//
@@ -62,9 +93,6 @@
                 
             }
 
-
-
-
             function getBalance() {
                 web3.eth.getBalance(web3.eth.accounts[0], function(error, result) {
                     if (error) {
@@ -74,6 +102,14 @@
                     }
                 });
             }
+            ///***************  PRIVATE  **********//
+
+            function handleError(error) {
+                console.error(err);
+                alert('Error');
+            }
+
+            ///***************  PRIVATE  **********//
         </script>
         
         <style>
@@ -92,7 +128,7 @@
         <div style="background-color: lightGray">
             <h2>Team Wallet</h2>
             <div id="Team">
-                <div style="width: 300px; background-color: gray; float: left;">
+                <div style="width: 400px; background-color: gray; float: left;">
                     <div>
                         <span>name: </span>
                         <span id="TeamName">...</span>
@@ -100,6 +136,7 @@
                     <div>
                         <span>balance: </span>
                         <span id="TeamBalance">...</span>
+                        <span style="margin-left: 5px">Eth</span>
                     </div>
                     <div>
                         <span>owner: </span>
@@ -139,9 +176,9 @@
                 <button id="ShowBalance">Show balance</button>
                 <span> of </span>
                 <input type="text" id="ShowBalanceAddress"  placeholder="address">
-                <span style="margin-left: 10px">is</span>
-                <span style="margin-left: 10px">0.0</span>
-                <span style="margin-left: 10px">Eth</span>
+                <span style="margin-left: 5px">is</span>
+                <span style="margin-left: 5px">0.0</span>
+                <span style="margin-left: 5px">Eth</span>
 
                 <br/>
                 <button id="TransferPlayerBalance">Transfer</button>
