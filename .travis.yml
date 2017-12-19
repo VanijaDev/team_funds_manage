@@ -3,11 +3,11 @@ node_js:
   - "5.6.0"
 before_script:
   - npm install
-  - npm install jshint
+  # - npm install jshint
   - export DISPLAY=:99.0 
   - sh -e /etc/init.d/xvfb start
 script:
-   - "jshint *.js lib"
+  #  - "jshint *.js lib"
 after_script:
   - npm run-script build
   - npm run-script test-coveralls
