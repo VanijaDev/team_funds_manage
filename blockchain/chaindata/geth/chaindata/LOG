@@ -733,3 +733,13 @@
 15:56:55.650307 table@remove removed @295
 16:57:53.739734 db@close closing
 16:57:53.739878 db@close done T·142.584µs
+=============== Dec 19, 2017 (EET) ===============
+13:40:56.716495 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+13:40:56.717817 version@stat F·[0 46] S·95MiB[0B 95MiB] Sc·[0.00 0.96]
+13:40:56.717878 db@open opening
+13:40:56.718130 journal@recovery F·1
+13:40:56.720361 journal@recovery recovering @297
+13:40:56.730368 memdb@flush created L0@345 N·3496 S·325KiB "\x00,\xe5..\xef\xb2\xdf,v2019732":"\xffǹ..~\x99Q,v2019663"
+13:40:56.745749 version@stat F·[1 46] S·96MiB[325KiB 95MiB] Sc·[0.25 0.96]
+13:40:56.749969 db@janitor F·49 G·0
+13:40:56.750008 db@open done T·32.104546ms
