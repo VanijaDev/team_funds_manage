@@ -11,10 +11,19 @@
                 web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
             }
 
+            ///**************** CONSTANTS ***************//
+
+            let Coinbase = web3.eth.accounts[0];
+            let Player_1 = web3.eth.accounts[1];
+            let Player_2 = web3.eth.accounts[2];
+
+            ///**************** CONSTANTS ***************//
+
+
             ///**************** CONTRACTS ***************//
-            
+
             //  TEAM WALLET
-            var teamWalletAddress = "0xaf171a9fbe57b04ebebc21d4263d48f295c4c177";
+            var teamWalletAddress = "0x61c259b193bf11822a1630e74c1fd1f771dd766f";
             var teamWalletABI = [{"constant":false,"inputs":[{"name":"walletAddress","type":"address"}],"name":"removePlayerWallet","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"moveOwnership","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"teamName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newName","type":"string"}],"name":"updateName","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"addr","type":"address"}],"name":"playerWalletName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"playerName","type":"bytes32"},{"name":"ownerAddress","type":"address"}],"name":"addPlayerWallet","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"playerWallet","type":"address"},{"name":"amount","type":"uint256"}],"name":"transferToPlayerWallet","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"playerWallets","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_teamName","type":"string"}],"payable":true,"stateMutability":"payable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"name","type":"bytes32"},{"indexed":false,"name":"walletAddress","type":"address"}],"name":"LogPlayerWalletAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"name","type":"bytes32"},{"indexed":false,"name":"walletAddress","type":"address"}],"name":"LogPlayerWalletRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"LogTransfer","type":"event"}];
             var teamWalletInst = web3.eth.contract(teamWalletABI).at(teamWalletAddress);
             
@@ -29,7 +38,7 @@
 
             function updateTeamData() {
                 //  name
-                teamWalletInst.teamName((err, res) => {
+                teamWalletInst.teamName.call((err, res) => {
                     if (err) {
                         handleError(err);
                         return;
@@ -49,7 +58,7 @@
                 });
 
                 //  owner 
-                teamWalletInst.owner((err, res) => {
+                teamWalletInst.owner.call((err, res) => {
                     if (err) {
                         handleError(err);
                         return;
@@ -57,9 +66,120 @@
 
                     document.getElementById('TeamOwner').innerText = res;
                 });
+            }
 
+            function rename() {
+                let name = document.getElementById('RenameName').value;
+                if (name.length == 0) {
+                    handleError(Error('Error: type new name, please'));
+                    return;
+                }
+
+                if (unlockAccount()) {
+                    console.log('good');
+                } else {
+                    console.log('bad');
+                }
+                
             }
             
+            function unlockAccount() {
+                var pass = prompt("Please enter your password:", "Test1234");
+                if (pass == null || pass == "") {
+                    return false;
+                }
+
+                //  Unlock account
+                web3.eth.defaultAccount = web3.eth.accounts[0];
+                // web3.personal.unlockAccount(web3.eth.defaultAccount, pass);
+
+                try {
+                    web3.personal.unlockAccount(web3.eth.defaultAccount, pass);
+                } catch(err) {
+                    return false;
+                }
+
+                return true;
+            }
+
+            
+            ///***************  Player  **********//
+            function updateName() {
+                teamWalletInst.updateName("Cool 111111", (err, res) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+
+                    console.log('SUCCESS');
+                });
+            }
+
+            function newPlayerWallet() {
+                let name = document.getElementById('AddPlayerWalletName').value;
+                
+                if (name.length < 3) {
+                    err = Error('Min 3 chars');
+                    handleError(err);
+                    return;
+                }
+
+                let id = document.getElementById('AddPlayerWalletNameID').value;
+                if (name.length < 3) {
+                    err = Error('Min 3 chars');
+                    handleError(err);
+                    return;
+                }
+
+                teamWalletInst.addPlayerWallet(web3.fromAscii(name), Player_1, (err, res) => {
+                    if (err) {
+                        handleError(err);
+                        return;
+                    }
+
+                    alert('Successfully created Player wallet: ' + res + ' name ' + name);
+                });                
+            }
+
+            function removePlayerWallet() {
+                let addr = document.getElementById('RemovePlayerWalletName').value;
+
+                if (!web3.isAddress(addr)) {
+                    err = Error('Invalid address');
+                    handleError(err);
+                    return;
+                }
+
+                teamWalletInst.removePlayerWallet(Player_1, {from: Coinbase}, (err, res) => {
+                    if (err) {
+                        handleError(err);
+                        return;
+                    }
+
+                    alert('Successfully removed Player wallet: ' + Player_1);
+                });
+            }
+
+            function showPlayerWalletName() {
+                teamWalletInst.playerWalletName.call(Player_1, (err, res) => {
+                    if (err) {
+                        handleError(err);
+                        return;
+                    }
+
+                    console.log(res);
+                });
+            }
+
+
+            ///***************  HELPERS  **********//
+
+            
+            function handleError(error) {
+                console.error(error);
+                alert(error.message);
+            }
+
             ///****************  enable / disable element ***************//
             function disableElement(elementID) {
                 document.getElementById(elementID).classList.add('disabledElement');
@@ -78,38 +198,7 @@
                 document.getElementById(elementID).classList.remove('hiddenElement');
             }
 
-            ///***************  create new Team **********//
-
-            function createTeam() {
-                let name = document.getElementById("CreateTeamName").value;
-                let amount = document.getElementById("CreateTeamBalance").value;
-
-                if (name.length == 0 || amount.length == 0) {
-                    alert("Please, fill name & amount");
-                    return;
-                }
-
-
-                
-            }
-
-            function getBalance() {
-                web3.eth.getBalance(web3.eth.accounts[0], function(error, result) {
-                    if (error) {
-                        console.log("Error while getting balance: " + error);
-                    } else {
-                        document.getElementById("myBalance").innerText = web3.fromWei(result, "ether");
-                    }
-                });
-            }
-            ///***************  PRIVATE  **********//
-
-            function handleError(error) {
-                console.error(err);
-                alert('Error');
-            }
-
-            ///***************  PRIVATE  **********//
+            ///***************  HELPERS  **********//
         </script>
         
         <style>
@@ -127,6 +216,8 @@
     <body onload="onloadFunction()">
         <div style="background-color: lightGray">
             <h2>Team Wallet</h2>
+            <button style='margin-bottom: 10px;' onclick="rename()">Rename</button>
+            <input type="text" id="RenameName" placeholder="new Name">
             <div id="Team">
                 <div style="width: 400px; background-color: gray; float: left;">
                     <div>
@@ -144,13 +235,14 @@
                     </div>
                 </div>
                 <div style="background-color:bisque;">
-                    <button>Add Player wallet</button>
+                    <button id='AddPlayerWallet', onclick="newPlayerWallet()">Add Player wallet</button>
                     <input type="text" id="AddPlayerWalletName" placeholder="new Name">
+                    <input type="number" id="AddPlayerWalletNameID"  placeholder="accounts[id]">
                     <br/>
-                    <button>Remove Player wallet</button>
+                    <button id='RemovePlayerWallet' onclick="removePlayerWallet()">Remove Player wallet</button>
                     <input type="text" id="RemovePlayerWalletName"  placeholder="address">
                     <br/>
-                    <button>Transfer</button>
+                    <button id='TransferToPlayerWallet'>Transfer</button>
                     <input type="text" id="TransferTeamAmount"  placeholder="amount (Eth)">
                     <span> to </span>                
                     <input type="text" id="TransferAddress"  placeholder="address">
