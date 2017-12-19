@@ -40,6 +40,8 @@ contract TeamWallet is BasicWallet {
     }
     
     function removePlayerWallet(address walletAddress) public onlyOwner returns (bool) {
+      require(playerWallets[walletAddress].getTeam() == address(0));
+
       PlayerWallet player = playerWallets[address(walletAddress)];
       bytes32 playerName = player.getPlayerName();
       require(playerName.length > 0);
