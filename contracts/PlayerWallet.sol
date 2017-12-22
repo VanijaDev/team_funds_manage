@@ -39,13 +39,4 @@ contract PlayerWallet is BasicWallet {
         
         return true;
     }
-    
-    //  external
-    function getPlayerName() external view returns(bytes32) {
-        return playerName;
-    }
-    
-    function getTeam() external view returns(address) {
-        return team;
-    }
 }

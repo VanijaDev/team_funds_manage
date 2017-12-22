@@ -9,7 +9,8 @@ contract TeamWallet is BasicWallet {
     
     //  MODIFIERS
     modifier ourTeamPlayersWalletOnly(address playerWallet) {
-      require(playerWallets[playerWallet].getTeam() == address(this));
+      address teamAddr = address(playerWallets[playerWallet].team);
+      require(teamAddr == address(this));
       _;
     }
     
@@ -30,7 +31,7 @@ contract TeamWallet is BasicWallet {
     }
     
     function addPlayerWallet(bytes32 playerName, address ownerAddress) public onlyOwner returns (address) {
-      require(playerWallets[ownerAddress].getTeam() == address(0));
+      require(address(playerWallets[ownerAddress].team) == address(0));
 
       PlayerWallet playerWallet = new PlayerWallet(playerName, ownerAddress, this, owner);
       playerWallets[address(playerWallet)] = playerWallet;
@@ -40,10 +41,10 @@ contract TeamWallet is BasicWallet {
     }
     
     function removePlayerWallet(address walletAddress) public onlyOwner returns (bool) {
-      require(playerWallets[walletAddress].getTeam() == address(0));
+      require(address(playerWallets[walletAddress].team) != address(0));
 
       PlayerWallet player = playerWallets[address(walletAddress)];
-      bytes32 playerName = player.getPlayerName();
+      bytes32 playerName = player.playerName();
       require(playerName.length > 0);
 
       delete playerWallets[address(walletAddress)];
@@ -54,7 +55,7 @@ contract TeamWallet is BasicWallet {
     
     function playerWalletName(address addr) public constant returns(string) {
       PlayerWallet wallet = playerWallets[addr];
-      bytes32 name = wallet.getPlayerName();
+      bytes32 name = wallet.playerName();
       
       return bytes32ToString(name);
     }
