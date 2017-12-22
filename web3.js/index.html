@@ -38,14 +38,7 @@
 
             function updateTeamData() {
                 //  name
-                teamWalletInst.teamName.call((err, res) => {
-                    if (err) {
-                        handleError(err);
-                        return;
-                    }
-
-                    document.getElementById('TeamName').innerText = res;
-                });
+                updateNameUI();
 
                 //  balance
                 web3.eth.getBalance(teamWalletInst.address, (err, res) => {
@@ -76,40 +69,23 @@
                 }
 
                 if (unlockAccount()) {
-                    console.log('good');
+                    updateName(name);
                 } else {
-                    console.log('bad');
+                    handleError(Error('Error: account was not unlocked'));
                 }
                 
             }
             
-            function unlockAccount() {
-                var pass = prompt("Please enter your password:", "Test1234");
-                if (pass == null || pass == "") {
-                    return false;
-                }
-
-                //  Unlock account
-                web3.eth.defaultAccount = web3.eth.accounts[0];
-                try {
-                    web3.personal.unlockAccount(web3.eth.defaultAccount, pass);
-                } catch(err) {
-                    return false;
-                }
-
-                return true;
-            }
-
-            
             ///***************  Player  **********//
-            function updateName() {
-                teamWalletInst.updateName("Cool 111111", (err, res) => {
+            function updateName(name) {
+                teamWalletInst.updateName(name, (err, res) => {
                     if (err) {
                         console.error(err);
                         return;
                     }
 
-                    console.log('SUCCESS');
+                    
+                    updateNameUI();
                 });
             }
 
@@ -171,11 +147,49 @@
 
 
             ///***************  HELPERS  **********//
+            
+            async function unlockAccount() {
+                var pass = prompt("Please enter your password:", "Test1234");
+                if (pass == null || pass == "") {
+                    return false;
+                }
 
+                //  Unlock account
+                // try {
+                //     web3.personal.unlockAccount(web3.eth.accounts[0], pass);
+                // } catch(err) {
+                //     return false;
+                // }
+
+                // return true;
+
+
+
+                return new Promise((res, err) => {
+                    web3.personal.unlockAccount(web3.eth.accounts[0], pass);
+                }).then(res => {
+                    if (res) {
+                        console.log('bed');
+                    } else {
+                        console.log('good');
+                    }
+                });
+            }
             
             function handleError(error) {
                 console.error(error);
                 alert(error.message);
+            }
+
+            function updateNameUI() {
+                teamWalletInst.teamName.call((err, res) => {
+                    if (err) {
+                        handleError(err);
+                        return;
+                    }
+
+                    document.getElementById('TeamName').innerText = res;
+                });
             }
 
             ///****************  enable / disable element ***************//
