@@ -4,5 +4,7 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile ~/.gitignore_global
 
-blockchain/*
-build/*
+/blockchain/*
+/build/*
+blockchain/chaindata/geth/nodes/LOG
+blockchain/chaindata/geth/chaindata/LOG
