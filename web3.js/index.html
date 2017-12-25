@@ -68,10 +68,10 @@
                     return;
                 }
 
-                if (unlockAccount()) {
-                    updateName(name);
-                } else {
+                if (!unlockAccount()) {
                     handleError(Error('Error: account was not unlocked'));
+                } else {
+                    updateName(name);
                 }
                 
             }
@@ -79,7 +79,6 @@
             ///***************  Player  **********//
             function updateName(name) {
                 teamWalletInst.updateName(name, (err, res) => {
-                    console.log('11111');
                     if (err) {
                         console.error(err);
                         return;
@@ -89,31 +88,36 @@
                 });
             }
 
-            // function newPlayerWallet() {
-            //     let name = document.getElementById('AddPlayerWalletName').value;
+            function newPlayerWallet() {
+                if (!unlockAccount()) {
+                    handleError(Error('Error: account was not unlocked'));
+                    return;
+                }
+
+                let name = document.getElementById('AddPlayerWalletName').value;
                 
-            //     if (name.length < 3) {
-            //         err = Error('Min 3 chars');
-            //         handleError(err);
-            //         return;
-            //     }
+                if (name.length < 3) {
+                    err = Error('Min 3 chars');
+                    handleError(err);
+                    return;
+                }
 
-            //     let id = document.getElementById('AddPlayerWalletNameID').value;
-            //     if (name.length < 3) {
-            //         err = Error('Min 3 chars');
-            //         handleError(err);
-            //         return;
-            //     }
+                var AccId = parseInt(document.getElementById("AddPlayerWalletNameID").value);
+                if (!AccId || AccId < 1 || AccId > 9) {
+                    err = Error('ID must be number only in range: 1 - 9');
+                    handleError(err);
+                    return;
+                }
 
-            //     teamWalletInst.addPlayerWallet(web3.fromAscii(name), Player_1, (err, res) => {
-            //         if (err) {
-            //             handleError(err);
-            //             return;
-            //         }
+                teamWalletInst.addPlayerWallet(web3.fromAscii(name), AccId, (err, res) => {
+                    if (err) {
+                        handleError(err);
+                        return;
+                    }
 
-            //         alert('Successfully created Player wallet: ' + res + ' name ' + name);
-            //     });                
-            // }
+                    alert('Successfully created Player wallet: ' + res + ' name ' + name);
+                });                
+            }
 
             // function removePlayerWallet() {
             //     let addr = document.getElementById('RemovePlayerWalletName').value;
