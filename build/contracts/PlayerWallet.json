@@ -65,39 +65,11 @@
     {
       "constant": true,
       "inputs": [],
-      "name": "getTeam",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
       "name": "owner",
       "outputs": [
         {
           "name": "",
           "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "getPlayerName",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bytes32"
         }
       ],
       "payable": false,
@@ -142,6 +114,7 @@
       "type": "function"
     },
     {
+      "constant": false,
       "inputs": [
         {
           "name": "_playerName",
@@ -160,9 +133,57 @@
           "type": "address"
         }
       ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
       "payable": true,
       "stateMutability": "payable",
       "type": "constructor"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "walletManager",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "fallback"
+    },
+    {
+      "inputs": [
+        {
+          "name": "to",
+          "type": "address",
+          "indexed": false
+        },
+        {
+          "name": "amount",
+          "type": "uint256",
+          "indexed": false
+        },
+        {
+          "name": "_team",
+          "type": "address"
+        },
+        {
+          "name": "_walletManager",
+          "type": "address"
+        }
+      ],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "event",
+      "anonymous": false,
+      "name": "LogTransfer"
     },
     {
       "payable": true,
@@ -187,18 +208,18 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x606060405260405160808061084383398101604052808051906020019091908051906020019091908051906020019091908051906020019091905050336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508360018160001916905550826000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555081600360006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555080600260006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550505050506106e88061015b6000396000f300606060405260043610610099576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806377508b4b1461009b57806379ff433d146100cc57806381b2d07b1461011d57806385f2aef2146101465780638bce6edd1461019b5780638da5cb5b146101f0578063a69c659714610245578063a9059cbb14610276578063d5dcbec6146102d0575b005b34156100a657600080fd5b6100ae610325565b60405180826000191660001916815260200191505060405180910390f35b34156100d757600080fd5b610103600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061032b565b604051808215151515815260200191505060405180910390f35b341561012857600080fd5b6101306103cd565b6040518082815260200191505060405180910390f35b341561015157600080fd5b6101596104a3565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156101a657600080fd5b6101ae6104c9565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156101fb57600080fd5b6102036104f3565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b341561025057600080fd5b610258610518565b60405180826000191660001916815260200191505060405180910390f35b341561028157600080fd5b6102b6600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610522565b604051808215151515815260200191505060405180910390f35b34156102db57600080fd5b6102e3610696565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60015481565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561038857600080fd5b816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550919050565b60003373ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16148061047757503373ffffffffffffffffffffffffffffffffffffffff16600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16145b1561049b573073ffffffffffffffffffffffffffffffffffffffff163190506104a0565b600080fd5b90565b600360009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000600360009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000600154905090565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561057f57600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168373ffffffffffffffffffffffffffffffffffffffff16141515156105bb57600080fd5b3073ffffffffffffffffffffffffffffffffffffffff163182111515156105e157600080fd5b8273ffffffffffffffffffffffffffffffffffffffff166108fc839081150290604051600060405180830381858888f19350505050151561062157600080fd5b7f2ba5dd9653174138784e5d96e6414a4792d581bf8b5622f9a78f2e76d7ee5d1a8383604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a16001905092915050565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a72305820b05a68de602e19aa19a82d3d1e9784f802a71cfcee90dff10c8689be3fba213f0029",
-  "deployedBytecode": "0x606060405260043610610099576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806377508b4b1461009b57806379ff433d146100cc57806381b2d07b1461011d57806385f2aef2146101465780638bce6edd1461019b5780638da5cb5b146101f0578063a69c659714610245578063a9059cbb14610276578063d5dcbec6146102d0575b005b34156100a657600080fd5b6100ae610325565b60405180826000191660001916815260200191505060405180910390f35b34156100d757600080fd5b610103600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061032b565b604051808215151515815260200191505060405180910390f35b341561012857600080fd5b6101306103cd565b6040518082815260200191505060405180910390f35b341561015157600080fd5b6101596104a3565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156101a657600080fd5b6101ae6104c9565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156101fb57600080fd5b6102036104f3565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b341561025057600080fd5b610258610518565b60405180826000191660001916815260200191505060405180910390f35b341561028157600080fd5b6102b6600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610522565b604051808215151515815260200191505060405180910390f35b34156102db57600080fd5b6102e3610696565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60015481565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561038857600080fd5b816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550919050565b60003373ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16148061047757503373ffffffffffffffffffffffffffffffffffffffff16600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16145b1561049b573073ffffffffffffffffffffffffffffffffffffffff163190506104a0565b600080fd5b90565b600360009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000600360009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000600154905090565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561057f57600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168373ffffffffffffffffffffffffffffffffffffffff16141515156105bb57600080fd5b3073ffffffffffffffffffffffffffffffffffffffff163182111515156105e157600080fd5b8273ffffffffffffffffffffffffffffffffffffffff166108fc839081150290604051600060405180830381858888f19350505050151561062157600080fd5b7f2ba5dd9653174138784e5d96e6414a4792d581bf8b5622f9a78f2e76d7ee5d1a8383604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a16001905092915050565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a72305820b05a68de602e19aa19a82d3d1e9784f802a71cfcee90dff10c8689be3fba213f0029",
-  "sourceMap": "121:1118:1:-;;;264:240;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;303:10:0;295:5;;:18;;;;;;;;;;;;;;;;;;400:11:1;387:10;:24;;;;;;;429:6;421:5;;:14;;;;;;;;;;;;;;;;;;452:5;445:4;;:12;;;;;;;;;;;;;;;;;;483:14;467:13;;:30;;;;;;;;;;;;;;;;;;264:240;;;;121:1118;;;;;;",
-  "deployedSourceMap": "121:1118:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;164:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;330:105:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;552:202:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;234:19;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1159:78;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;53:20:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1059:90:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;764:268;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;200:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;164:25;;;;:::o;330:105:0:-;396:4;153:5;;;;;;;;;;;139:19;;:10;:19;;;131:28;;;;;;;;420:8;412:5;;:16;;;;;;;;;;;;;;;;;;330:105;;;:::o;552:202:1:-;595:11;631:10;622:19;;:5;;;;;;;;;;;:19;;;:50;;;;662:10;645:27;;:13;;;;;;;;;;;:27;;;622:50;618:103;;;695:4;:12;;;688:19;;;;618:103;739:8;;;552:202;;:::o;234:19::-;;;;;;;;;;;;;:::o;1159:78::-;1200:7;1226:4;;;;;;;;;;;1219:11;;1159:78;:::o;53:20:0:-;;;;;;;;;;;;;:::o;1059:90:1:-;1106:7;1132:10;;1125:17;;1059:90;:::o;764:268::-;833:4;153:5:0;;;;;;;;;;;139:19;;:10;:19;;;131:28;;;;;;;;871:1:1;857:16;;:2;:16;;;;849:25;;;;;;;;902:4;:12;;;892:6;:22;;884:31;;;;;;;;934:2;:11;;:19;946:6;934:19;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;972:23;984:2;988:6;972:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;1021:4;1014:11;;764:268;;;;:::o;200:28::-;;;;;;;;;;;;;:::o",
-  "source": "pragma solidity ^0.4.17;\n\nimport \"./BasicWallet.sol\";\n\n/**\n* owner - is TeamWallet, because it creates PlayerWallet\n**/\n\ncontract PlayerWallet is BasicWallet {\n    bytes32 public playerName;\n    \n    address public walletManager;\n    address public team;\n    \n    function PlayerWallet(bytes32 _playerName, address _owner, address _team, address _walletManager) public payable {\n        playerName = _playerName;\n        owner = _owner;\n        team = _team;\n        walletManager = _walletManager;\n    }\n    \n    function() public payable {}\n    \n    function showBalance() public view returns(uint amount) {\n        if (owner == msg.sender || walletManager == msg.sender) {\n            return this.balance;   \n        }\n        \n        revert();\n    }\n    \n    function transfer(address to, uint amount) public onlyOwner returns (bool) {\n        require(to != address(0));\n        require(amount <= this.balance);\n        \n        to.transfer(amount);\n        \n        LogTransfer(to, amount);\n        \n        return true;\n    }\n    \n    //  external\n    function getPlayerName() external view returns(bytes32) {\n        return playerName;\n    }\n    \n    function getTeam() external view returns(address) {\n        return team;\n    }\n}",
+  "bytecode": "0x606060405260405160808061077383398101604052808051906020019091908051906020019091908051906020019091908051906020019091905050336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508360018160001916905550826000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555081600360006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555080600260006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550505050506106188061015b6000396000f300606060405260043610610083576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806377508b4b1461008557806379ff433d146100b657806381b2d07b1461010757806385f2aef2146101305780638da5cb5b14610185578063a9059cbb146101da578063d5dcbec614610234575b005b341561009057600080fd5b610098610289565b60405180826000191660001916815260200191505060405180910390f35b34156100c157600080fd5b6100ed600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061028f565b604051808215151515815260200191505060405180910390f35b341561011257600080fd5b61011a610331565b6040518082815260200191505060405180910390f35b341561013b57600080fd5b610143610407565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b341561019057600080fd5b61019861042d565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156101e557600080fd5b61021a600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610452565b604051808215151515815260200191505060405180910390f35b341561023f57600080fd5b6102476105c6565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60015481565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156102ec57600080fd5b816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550919050565b60003373ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614806103db57503373ffffffffffffffffffffffffffffffffffffffff16600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16145b156103ff573073ffffffffffffffffffffffffffffffffffffffff16319050610404565b600080fd5b90565b600360009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156104af57600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168373ffffffffffffffffffffffffffffffffffffffff16141515156104eb57600080fd5b3073ffffffffffffffffffffffffffffffffffffffff1631821115151561051157600080fd5b8273ffffffffffffffffffffffffffffffffffffffff166108fc839081150290604051600060405180830381858888f19350505050151561055157600080fd5b7f2ba5dd9653174138784e5d96e6414a4792d581bf8b5622f9a78f2e76d7ee5d1a8383604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a16001905092915050565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a723058204bdf40be012e999e314942da3bae0c43a638adcc83436af752007dca2f933eff0029",
+  "deployedBytecode": "0x606060405260043610610083576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806377508b4b1461008557806379ff433d146100b657806381b2d07b1461010757806385f2aef2146101305780638da5cb5b14610185578063a9059cbb146101da578063d5dcbec614610234575b005b341561009057600080fd5b610098610289565b60405180826000191660001916815260200191505060405180910390f35b34156100c157600080fd5b6100ed600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061028f565b604051808215151515815260200191505060405180910390f35b341561011257600080fd5b61011a610331565b6040518082815260200191505060405180910390f35b341561013b57600080fd5b610143610407565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b341561019057600080fd5b61019861042d565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156101e557600080fd5b61021a600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610452565b604051808215151515815260200191505060405180910390f35b341561023f57600080fd5b6102476105c6565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60015481565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156102ec57600080fd5b816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550919050565b60003373ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614806103db57503373ffffffffffffffffffffffffffffffffffffffff16600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16145b156103ff573073ffffffffffffffffffffffffffffffffffffffff16319050610404565b600080fd5b90565b600360009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156104af57600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168373ffffffffffffffffffffffffffffffffffffffff16141515156104eb57600080fd5b3073ffffffffffffffffffffffffffffffffffffffff1631821115151561051157600080fd5b8273ffffffffffffffffffffffffffffffffffffffff166108fc839081150290604051600060405180830381858888f19350505050151561055157600080fd5b7f2ba5dd9653174138784e5d96e6414a4792d581bf8b5622f9a78f2e76d7ee5d1a8383604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a16001905092915050565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a723058204bdf40be012e999e314942da3bae0c43a638adcc83436af752007dca2f933eff0029",
+  "sourceMap": "121:913:1:-;;;264:240;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;303:10:0;295:5;;:18;;;;;;;;;;;;;;;;;;400:11:1;387:10;:24;;;;;;;429:6;421:5;;:14;;;;;;;;;;;;;;;;;;452:5;445:4;;:12;;;;;;;;;;;;;;;;;;483:14;467:13;;:30;;;;;;;;;;;;;;;;;;264:240;;;;121:913;;;;;;",
+  "deployedSourceMap": "121:913:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;164:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;330:105:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;552:202:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;234:19;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;53:20:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;764:268:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;200:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;164:25;;;;:::o;330:105:0:-;396:4;153:5;;;;;;;;;;;139:19;;:10;:19;;;131:28;;;;;;;;420:8;412:5;;:16;;;;;;;;;;;;;;;;;;330:105;;;:::o;552:202:1:-;595:11;631:10;622:19;;:5;;;;;;;;;;;:19;;;:50;;;;662:10;645:27;;:13;;;;;;;;;;;:27;;;622:50;618:103;;;695:4;:12;;;688:19;;;;618:103;739:8;;;552:202;;:::o;234:19::-;;;;;;;;;;;;;:::o;53:20:0:-;;;;;;;;;;;;;:::o;764:268:1:-;833:4;153:5:0;;;;;;;;;;;139:19;;:10;:19;;;131:28;;;;;;;;871:1:1;857:16;;:2;:16;;;;849:25;;;;;;;;902:4;:12;;;892:6;:22;;884:31;;;;;;;;934:2;:11;;:19;946:6;934:19;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;972:23;984:2;988:6;972:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;1021:4;1014:11;;764:268;;;;:::o;200:28::-;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.17;\n\nimport \"./BasicWallet.sol\";\n\n/**\n* owner - is TeamWallet, because it creates PlayerWallet\n**/\n\ncontract PlayerWallet is BasicWallet {\n    bytes32 public playerName;\n    \n    address public walletManager;\n    address public team;\n    \n    function PlayerWallet(bytes32 _playerName, address _owner, address _team, address _walletManager) public payable {\n        playerName = _playerName;\n        owner = _owner;\n        team = _team;\n        walletManager = _walletManager;\n    }\n    \n    function() public payable {}\n    \n    function showBalance() public view returns(uint amount) {\n        if (owner == msg.sender || walletManager == msg.sender) {\n            return this.balance;   \n        }\n        \n        revert();\n    }\n    \n    function transfer(address to, uint amount) public onlyOwner returns (bool) {\n        require(to != address(0));\n        require(amount <= this.balance);\n        \n        to.transfer(amount);\n        \n        LogTransfer(to, amount);\n        \n        return true;\n    }\n}",
   "sourcePath": "/Users/vanijatko/Documents/projects/study/ethereum/team_funds_manage/contracts/PlayerWallet.sol",
   "ast": {
     "attributes": {
       "absolutePath": "/Users/vanijatko/Documents/projects/study/ethereum/team_funds_manage/contracts/PlayerWallet.sol",
       "exportedSymbols": {
         "PlayerWallet": [
-          167
+          151
         ]
       }
     },
@@ -221,7 +242,7 @@
           "SourceUnit": 45,
           "absolutePath": "/Users/vanijatko/Documents/projects/study/ethereum/team_funds_manage/contracts/BasicWallet.sol",
           "file": "./BasicWallet.sol",
-          "scope": 168,
+          "scope": 152,
           "symbolAliases": [
             null
           ],
@@ -240,11 +261,11 @@
           "documentation": "owner - is TeamWallet, because it creates PlayerWallet*",
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            167,
+            151,
             44
           ],
           "name": "PlayerWallet",
-          "scope": 168
+          "scope": 152
         },
         "children": [
           {
@@ -274,7 +295,7 @@
             "attributes": {
               "constant": false,
               "name": "playerName",
-              "scope": 167,
+              "scope": 151,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "bytes32",
@@ -300,7 +321,7 @@
             "attributes": {
               "constant": false,
               "name": "walletManager",
-              "scope": 167,
+              "scope": 151,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "address",
@@ -326,7 +347,7 @@
             "attributes": {
               "constant": false,
               "name": "team",
-              "scope": 167,
+              "scope": 151,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "address",
@@ -358,7 +379,7 @@
               ],
               "name": "PlayerWallet",
               "payable": true,
-              "scope": 167,
+              "scope": 151,
               "stateMutability": "payable",
               "superFunction": null,
               "visibility": "public"
@@ -712,7 +733,7 @@
               ],
               "name": "",
               "payable": true,
-              "scope": 167,
+              "scope": 151,
               "stateMutability": "payable",
               "superFunction": null,
               "visibility": "public"
@@ -766,7 +787,7 @@
               ],
               "name": "showBalance",
               "payable": false,
-              "scope": 167,
+              "scope": 151,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -885,7 +906,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 515,
+                                      "referencedDeclaration": 506,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -950,7 +971,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 515,
+                                      "referencedDeclaration": 506,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -998,7 +1019,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 528,
+                                      "referencedDeclaration": 519,
                                       "type": "contract PlayerWallet",
                                       "value": "this"
                                     },
@@ -1054,7 +1075,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 519,
+                              "referencedDeclaration": 510,
                               "type": "function () pure",
                               "value": "revert"
                             },
@@ -1089,7 +1110,7 @@
               "isConstructor": false,
               "name": "transfer",
               "payable": false,
-              "scope": 167,
+              "scope": 151,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -1243,7 +1264,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 518,
+                              "referencedDeclaration": 509,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -1379,7 +1400,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 518,
+                              "referencedDeclaration": 509,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -1434,7 +1455,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 528,
+                                      "referencedDeclaration": 519,
                                       "type": "contract PlayerWallet",
                                       "value": "this"
                                     },
@@ -1847,14 +1868,14 @@
             "src": "1159:78:1"
           }
         ],
-        "id": 167,
+        "id": 151,
         "name": "ContractDefinition",
-        "src": "121:1118:1"
+        "src": "121:913:1"
       }
     ],
-    "id": 168,
+    "id": 152,
     "name": "SourceUnit",
-    "src": "0:1239:1"
+    "src": "0:1034:1"
   },
   "compiler": {
     "name": "solc",
@@ -1862,5 +1883,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-19T14:36:16.419Z"
+  "updatedAt": "2017-12-25T14:33:45.257Z"
 }
