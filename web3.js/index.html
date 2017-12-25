@@ -23,12 +23,12 @@
             ///**************** CONTRACTS ***************//
 
             //  TEAM WALLET
-            var teamWalletAddress = "0x61c259b193bf11822a1630e74c1fd1f771dd766f";
+            var teamWalletAddress = "0xfd317c3379975dd9da3d56305645e18290e3a573";
             var teamWalletABI = [{"constant":false,"inputs":[{"name":"walletAddress","type":"address"}],"name":"removePlayerWallet","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"moveOwnership","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"teamName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newName","type":"string"}],"name":"updateName","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"addr","type":"address"}],"name":"playerWalletName","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"playerName","type":"bytes32"},{"name":"ownerAddress","type":"address"}],"name":"addPlayerWallet","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"playerWallet","type":"address"},{"name":"amount","type":"uint256"}],"name":"transferToPlayerWallet","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"playerWallets","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_teamName","type":"string"}],"payable":true,"stateMutability":"payable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"name","type":"bytes32"},{"indexed":false,"name":"walletAddress","type":"address"}],"name":"LogPlayerWalletAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"name","type":"bytes32"},{"indexed":false,"name":"walletAddress","type":"address"}],"name":"LogPlayerWalletRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"LogTransfer","type":"event"}];
             var teamWalletInst = web3.eth.contract(teamWalletABI).at(teamWalletAddress);
             
             //  PLAYER WALLET
-            var playerWalletABI = [{"constant":true,"inputs":[],"name":"playerName","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"moveOwnership","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"showBalance","outputs":[{"name":"amount","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"team","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getTeam","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getPlayerName","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"walletManager","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_playerName","type":"bytes32"},{"name":"_owner","type":"address"},{"name":"_team","type":"address"},{"name":"_walletManager","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"LogTransfer","type":"event"}];
+            var playerWalletABI = [{"constant":true,"inputs":[],"name":"playerName","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"moveOwnership","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"showBalance","outputs":[{"name":"amount","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"team","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"walletManager","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_playerName","type":"bytes32"},{"name":"_owner","type":"address"},{"name":"_team","type":"address"},{"name":"_walletManager","type":"address"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":true,"stateMutability":"payable","type":"constructor"},{"constant":true,"inputs":[],"name":"walletManager","outputs":[{"name":"","type":"address"}],"payable":true,"stateMutability":"payable","type":"fallback"},{"inputs":[{"name":"to","type":"address","indexed":false},{"name":"amount","type":"uint256","indexed":false},{"name":"_team","type":"address"},{"name":"_walletManager","type":"address"}],"payable":true,"stateMutability":"payable","type":"event","anonymous":false,"name":"LogTransfer"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"LogTransfer","type":"event"}];
             
             ///**************** CONTRACTS ***************//
 
@@ -79,101 +79,91 @@
             ///***************  Player  **********//
             function updateName(name) {
                 teamWalletInst.updateName(name, (err, res) => {
+                    console.log('11111');
                     if (err) {
                         console.error(err);
                         return;
                     }
 
-                    
                     updateNameUI();
                 });
             }
 
-            function newPlayerWallet() {
-                let name = document.getElementById('AddPlayerWalletName').value;
+            // function newPlayerWallet() {
+            //     let name = document.getElementById('AddPlayerWalletName').value;
                 
-                if (name.length < 3) {
-                    err = Error('Min 3 chars');
-                    handleError(err);
-                    return;
-                }
+            //     if (name.length < 3) {
+            //         err = Error('Min 3 chars');
+            //         handleError(err);
+            //         return;
+            //     }
 
-                let id = document.getElementById('AddPlayerWalletNameID').value;
-                if (name.length < 3) {
-                    err = Error('Min 3 chars');
-                    handleError(err);
-                    return;
-                }
+            //     let id = document.getElementById('AddPlayerWalletNameID').value;
+            //     if (name.length < 3) {
+            //         err = Error('Min 3 chars');
+            //         handleError(err);
+            //         return;
+            //     }
 
-                teamWalletInst.addPlayerWallet(web3.fromAscii(name), Player_1, (err, res) => {
-                    if (err) {
-                        handleError(err);
-                        return;
-                    }
+            //     teamWalletInst.addPlayerWallet(web3.fromAscii(name), Player_1, (err, res) => {
+            //         if (err) {
+            //             handleError(err);
+            //             return;
+            //         }
 
-                    alert('Successfully created Player wallet: ' + res + ' name ' + name);
-                });                
-            }
+            //         alert('Successfully created Player wallet: ' + res + ' name ' + name);
+            //     });                
+            // }
 
-            function removePlayerWallet() {
-                let addr = document.getElementById('RemovePlayerWalletName').value;
+            // function removePlayerWallet() {
+            //     let addr = document.getElementById('RemovePlayerWalletName').value;
 
-                if (!web3.isAddress(addr)) {
-                    err = Error('Invalid address');
-                    handleError(err);
-                    return;
-                }
+            //     if (!web3.isAddress(addr)) {
+            //         err = Error('Invalid address');
+            //         handleError(err);
+            //         return;
+            //     }
 
-                teamWalletInst.removePlayerWallet(Player_1, {from: Coinbase}, (err, res) => {
-                    if (err) {
-                        handleError(err);
-                        return;
-                    }
+            //     teamWalletInst.removePlayerWallet(Player_1, {from: Coinbase}, (err, res) => {
+            //         if (err) {
+            //             handleError(err);
+            //             return;
+            //         }
 
-                    alert('Successfully removed Player wallet: ' + Player_1);
-                });
-            }
+            //         alert('Successfully removed Player wallet: ' + Player_1);
+            //     });
+            // }
 
-            function showPlayerWalletName() {
-                teamWalletInst.playerWalletName.call(Player_1, (err, res) => {
-                    if (err) {
-                        handleError(err);
-                        return;
-                    }
+            // function showPlayerWalletName() {
+            //     teamWalletInst.playerWalletName.call(Player_1, (err, res) => {
+            //         if (err) {
+            //             handleError(err);
+            //             return;
+            //         }
 
-                    console.log(res);
-                });
-            }
+            //         console.log(res);
+            //     });
+            // }
 
 
             ///***************  HELPERS  **********//
             
-            async function unlockAccount() {
+            function unlockAccount() {
                 var pass = prompt("Please enter your password:", "Test1234");
                 if (pass == null || pass == "") {
                     return false;
                 }
 
-                //  Unlock account
-                // try {
-                //     web3.personal.unlockAccount(web3.eth.accounts[0], pass);
-                // } catch(err) {
-                //     return false;
-                // }
+                let acc = web3.eth.accounts[0];
 
-                // return true;
+                try {
+                    web3.personal.unlockAccount(acc, pass);
+                } catch(err) {
+                    return false;
+                }
 
-
-
-                return new Promise((res, err) => {
-                    web3.personal.unlockAccount(web3.eth.accounts[0], pass);
-                }).then(res => {
-                    if (res) {
-                        console.log('bed');
-                    } else {
-                        console.log('good');
-                    }
-                });
+                web3.eth.defaultAccount=acc;
+                return true;
             }
             
             function handleError(error) {
