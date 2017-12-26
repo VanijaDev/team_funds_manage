@@ -34,7 +34,7 @@ contract TeamWallet is BasicWallet {
       require(address(playerWallets[ownerAddress].team) == address(0));
 
       PlayerWallet playerWallet = new PlayerWallet(playerName, ownerAddress, this, owner);
-      playerWallets[address(playerWallet)] = playerWallet;
+      playerWallets[ownerAddress] = playerWallet;
       
       LogPlayerWalletAdded(playerName, playerWallet);
       return playerWallet;
