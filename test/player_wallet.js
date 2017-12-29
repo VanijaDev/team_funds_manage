@@ -22,7 +22,7 @@ contract('PlayerWallet', (accounts) => {
     teamWallet = await TeamWallet.deployed();
     
     //  create new player wallet
-    let tx = await teamWallet.addPlayerWallet(player1_Name, player1_Owner);
+    let tx = await teamWallet.addNewPlayerWallet(player1_Name, player1_Owner);
     let addr = tx.logs[0].args.walletAddress;
     playerWallet = PlayerWallet.at(addr);
   });
@@ -31,7 +31,7 @@ contract('PlayerWallet', (accounts) => {
     teamWallet = await TeamWallet.new(TEAM_WALLET_INITIAL_NAME, {value: TEAM_WALLET_INITIAL_DEPOSIT});
     
     //  create new player wallet
-    let tx = await teamWallet.addPlayerWallet(player1_Name, player1_Owner);
+    let tx = await teamWallet.addNewPlayerWallet(player1_Name, player1_Owner);
     let addr = tx.logs[0].args.walletAddress;
     playerWallet = PlayerWallet.at(addr);
   });

@@ -53,16 +53,15 @@ contract('TeamWallet', (accounts) => {
 
   describe('add & remove player wallet', async() => {
     it('add player wallet', async() => {  
-      
       //  return address
-      let addr = await teamWallet.addPlayerWallet.call(player1_Name, player1_Owner);
+      let addr = await teamWallet.addNewPlayerWallet.call(player1_Name, player1_Owner);
       assert.isTrue(addr.length > 10, 'wrong address');
 
       //  only owner can create new team wallet
-      asserts.throws(teamWallet.addPlayerWallet(player1_Name, player1_Owner, {from: ACC_2}), 'should throw, because not owner');
+      asserts.throws(teamWallet.addNewPlayerWallet(player1_Name, player1_Owner, {from: ACC_2}), 'should throw, because not owner');
   
       //  LogPlayerWalletAdded
-      let tx = await teamWallet.addPlayerWallet(player1_Name, player1_Owner);
+      let tx = await teamWallet.addNewPlayerWallet(player1_Name, player1_Owner);
       let logs = tx.logs;
       assert.equal(logs.length, 1, 'should be one event');
       assert.equal(logs[0].event, 'LogPlayerWalletAdded', 'shold be LogPlayerWalletAdded event');
@@ -88,11 +87,16 @@ contract('TeamWallet', (accounts) => {
       assert.equal(await teamWallet.owner.call(), await player.walletManager.call(), 'wrong walletManager')
 
       //  another wallet for the same owner can not be added
-      asserts.throws(teamWallet.addPlayerWallet(player1_Name, player1_Owner), 'should throw, because owner already has wallet');
+      asserts.throws(teamWallet.addNewPlayerWallet(player1_Name, player1_Owner), 'should throw, because owner already has wallet');
+    });
+
+    it('reject player wallet for the same owner address', async() => {
+      let tx = await teamWallet.addNewPlayerWallet(player1_Name, player1_Owner);
+      asserts.throws(teamWallet.addNewPlayerWallet(player1_Name, player1_Owner), 'should throw, because owner address already has PlayerWallet');
     });
   
     it('remove player wallet', async() => {
-      let tx = await teamWallet.addPlayerWallet(player1_Name, player1_Owner);
+      let tx = await teamWallet.addNewPlayerWallet(player1_Name, player1_Owner);
       let playerWalletAddress = tx.logs[0].args.walletAddress
       
       tx = await teamWallet.removePlayerWallet(player1_Owner);
@@ -110,7 +114,7 @@ contract('TeamWallet', (accounts) => {
   });
 
   it('player wallet name', async() => {
-    let tx = await teamWallet.addPlayerWallet(player1_Name, player1_Owner);
+    let tx = await teamWallet.addNewPlayerWallet(player1_Name, player1_Owner);
     let addr = tx.logs[0].args.walletAddress;
 
     let name = await teamWallet.playerWalletName.call(player1_Owner);
@@ -121,7 +125,7 @@ contract('TeamWallet', (accounts) => {
     const transferAmount = TEAM_WALLET_INITIAL_DEPOSIT / 100;
 
     //  create new player wallet
-    let tx = await teamWallet.addPlayerWallet(player1_Name, player1_Owner);
+    let tx = await teamWallet.addNewPlayerWallet(player1_Name, player1_Owner);
     let addr = tx.logs[0].args.walletAddress;
 
     //  check call() result

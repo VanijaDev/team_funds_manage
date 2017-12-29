@@ -31,14 +31,14 @@ contract TeamWallet is BasicWallet {
       return true;
     }
     
-    function addPlayerWallet(bytes32 playerName, address ownerAddress) public onlyOwner returns (address) {
+    function addNewPlayerWallet(bytes32 playerName, address ownerAddress) public onlyOwner returns (address) {
       require(address(playerWallets[ownerAddress].team) == address(0));
 
       PlayerWallet playerWallet = new PlayerWallet(playerName, ownerAddress, address(this), owner);
       playerWallets[ownerAddress] = playerWallet;
       
       LogPlayerWalletAdded(playerName, playerWallet);
-      return playerWallet;
+      return address(playerWallet);
     }
     
     function removePlayerWallet(address ownerAddress) public onlyOwner returns (bool) {
