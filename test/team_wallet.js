@@ -14,8 +14,9 @@ contract('TeamWallet', (accounts) => {
   const TEAM_WALLET_INITIAL_DEPOSIT = web3.toWei(1, 'finney');
   const TEAM_WALLET_INITIAL_NAME = 'Cool Team';
      
-  const player1Name = 'Player_1';
-  const player1Owner = ACC_1;
+  const player1_Name = 'Player_1';
+  const player1_Owner = ACC_1;
+  const player2_Owner = ACC_2;
    
   before('setup', async() => {
     let inst = await TeamWallet.deployed();
@@ -54,23 +55,23 @@ contract('TeamWallet', (accounts) => {
     it('add player wallet', async() => {  
       
       //  return address
-      let addr = await teamWallet.addPlayerWallet.call(player1Name, player1Owner);
+      let addr = await teamWallet.addPlayerWallet.call(player1_Name, player1_Owner);
       assert.isTrue(addr.length > 10, 'wrong address');
 
       //  only owner can create new team wallet
-      asserts.throws(teamWallet.addPlayerWallet(player1Name, player1Owner, {from: ACC_2}), 'should throw, because not owner');
+      asserts.throws(teamWallet.addPlayerWallet(player1_Name, player1_Owner, {from: ACC_2}), 'should throw, because not owner');
   
       //  LogPlayerWalletAdded
-      let tx = await teamWallet.addPlayerWallet(player1Name, player1Owner);
+      let tx = await teamWallet.addPlayerWallet(player1_Name, player1_Owner);
       let logs = tx.logs;
       assert.equal(logs.length, 1, 'should be one event');
       assert.equal(logs[0].event, 'LogPlayerWalletAdded', 'shold be LogPlayerWalletAdded event');
-      assert.include(web3.toAscii(logs[0].args.name), player1Name, 'wrong player wallet name'); //  not sure if it is correct check
+      assert.include(web3.toAscii(logs[0].args.name), player1_Name, 'wrong player wallet name'); //  not sure if it is correct check
       assert.isTrue(logs[0].args.walletAddress > 10, 'wrong address');
   
       //  added to playerWallets
       let addedWallet = await teamWallet.playerWallets.call(addr);
-      assert.isDefined(addedWallet, 'wallet must be added');
+      assert.isDefined(player1_Owner, 'wallet must be added');
 
       let player = await PlayerWallet.at(addr);
   
@@ -81,60 +82,57 @@ contract('TeamWallet', (accounts) => {
       assert.equal(await player.team.call(), teamWallet.address, 'wrong team address');
   
       //  owner
-      assert.equal(await player.owner.call(), player1Owner, 'wrong owner')
+      assert.equal(await player.owner.call(), player1_Owner, 'wrong owner')
   
       //  walletManager
       assert.equal(await teamWallet.owner.call(), await player.walletManager.call(), 'wrong walletManager')
+
+      //  another wallet for the same owner can not be added
+      asserts.throws(teamWallet.addPlayerWallet(player1_Name, player1_Owner), 'should throw, because owner already has wallet');
     });
   
-    it('remove player wallet', async() => {  
-      //  check result using call()
-      let addr = await teamWallet.addPlayerWallet.call(player1Name, player1Owner);
-      let result = await teamWallet.removePlayerWallet.call(addr);
-      assert.isTrue(result, 'should be removed');
-  
-      //  check log
-      let tx = await teamWallet.addPlayerWallet(player1Name, player1Owner);
+    it('remove player wallet', async() => {
+      let tx = await teamWallet.addPlayerWallet(player1_Name, player1_Owner);
       let playerWalletAddress = tx.logs[0].args.walletAddress
       
-      tx = await teamWallet.removePlayerWallet(playerWalletAddress);
+      tx = await teamWallet.removePlayerWallet(player1_Owner);
       logs = tx.logs;
       assert.equal(logs.length, 1, 'should be one event');
       assert.equal(logs[0].event, 'LogPlayerWalletRemoved', 'shold be LogPlayerWalletRemoved event');
-      assert.include(web3.toAscii(logs[0].args.name), player1Name, 'wrong player wallet name'); //  not sure if it is correct check
+      assert.include(web3.toAscii(logs[0].args.name), player1_Name, 'wrong player wallet name'); //  not sure if it is correct check
       assert.equal(logs[0].args.walletAddress, playerWalletAddress, 'wrong address');
   
       //  check playerWallets
-      let playerWallet = await teamWallet.playerWallets.call(logs[0].args.walletAddress);
-      assert.isUndefined(playerWallet.address, 'wallet must be added');
+      let playerWallet = await teamWallet.playerWallets.call(player1_Owner);
+      assert.isUndefined(playerWallet.address, 'should be no wallet');
       
     });
   });
 
   it('player wallet name', async() => {
-    let tx = await teamWallet.addPlayerWallet(player1Name, player1Owner);
+    let tx = await teamWallet.addPlayerWallet(player1_Name, player1_Owner);
     let addr = tx.logs[0].args.walletAddress;
 
-    let name = await teamWallet.playerWalletName.call(addr);
-    assert.equal(name, player1Name, 'name must be equal');
+    let name = await teamWallet.playerWalletName.call(player1_Owner);
+    assert.equal(name, player1_Name, 'name must be equal');
   });
 
   it('transfer to player wallet', async() => {
-    const transferAmount = TEAM_WALLET_INITIAL_DEPOSIT / 5;
+    const transferAmount = TEAM_WALLET_INITIAL_DEPOSIT / 100;
 
     //  create new player wallet
-    let tx = await teamWallet.addPlayerWallet(player1Name, player1Owner);
+    let tx = await teamWallet.addPlayerWallet(player1_Name, player1_Owner);
     let addr = tx.logs[0].args.walletAddress;
 
     //  check call() result
-    let result = await teamWallet.transferToPlayerWallet.call(addr, transferAmount);
+    let result = await teamWallet.transferToPlayerWallet.call(player1_Owner, transferAmount);
     assert.isTrue(result, 'transfer should be successfull');
 
     // fail if not owner
-    asserts.throws(teamWallet.transferToPlayerWallet(addr, transferAmount, {from: ACC_2}, 'should fail, because not owner sent'));
+    asserts.throws(teamWallet.transferToPlayerWallet(player1_Owner, transferAmount, {from: ACC_2}, 'should fail, because not owner sent'));
 
     //  send and check player wallet balance
-    await teamWallet.transferToPlayerWallet(addr, transferAmount);
+    await teamWallet.transferToPlayerWallet(player1_Owner, transferAmount);
     let bal = await web3.eth.getBalance(addr);
     assert.equal(bal, transferAmount, 'wrong balance amount');
   });

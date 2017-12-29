@@ -5,11 +5,12 @@ import "./PlayerWallet.sol";
 contract TeamWallet is BasicWallet {
     string public teamName;
     
+    //  ownerAddress => PlayerWallet
     mapping (address => PlayerWallet) public playerWallets;
     
     //  MODIFIERS
-    modifier ourTeamPlayersWalletOnly(address playerWallet) {
-      address teamAddr = address(playerWallets[playerWallet].team);
+    modifier ourTeamPlayersWalletOnly(address ownerAddress) {
+      address teamAddr = playerWallets[ownerAddress].team();
       require(teamAddr == address(this));
       _;
     }
@@ -33,43 +34,42 @@ contract TeamWallet is BasicWallet {
     function addPlayerWallet(bytes32 playerName, address ownerAddress) public onlyOwner returns (address) {
       require(address(playerWallets[ownerAddress].team) == address(0));
 
-      PlayerWallet playerWallet = new PlayerWallet(playerName, ownerAddress, this, owner);
+      PlayerWallet playerWallet = new PlayerWallet(playerName, ownerAddress, address(this), owner);
       playerWallets[ownerAddress] = playerWallet;
       
       LogPlayerWalletAdded(playerName, playerWallet);
       return playerWallet;
     }
     
-    function removePlayerWallet(address walletAddress) public onlyOwner returns (bool) {
-      require(address(playerWallets[walletAddress].team) != address(0));
+    function removePlayerWallet(address ownerAddress) public onlyOwner returns (bool) {
+      require(address(playerWallets[ownerAddress].team) != address(0));
 
-      PlayerWallet player = playerWallets[address(walletAddress)];
-      bytes32 playerName = player.playerName();
-      require(playerName.length > 0);
+      PlayerWallet playerWallet = playerWallets[address(ownerAddress)];
+      bytes32 playerName = playerWallet.playerName();
 
-      delete playerWallets[address(walletAddress)];
+      delete playerWallets[address(ownerAddress)];
       
-      LogPlayerWalletRemoved(playerName, walletAddress);
+      LogPlayerWalletRemoved(playerName, address(playerWallet));
       return true;
     }
     
-    function playerWalletName(address addr) public constant returns(string) {
-      PlayerWallet wallet = playerWallets[addr];
+    function playerWalletName(address ownerAddress) public constant returns(string) {
+      PlayerWallet wallet = playerWallets[ownerAddress];
       bytes32 name = wallet.playerName();
       
       return bytes32ToString(name);
     }
     
-    function transferToPlayerWallet(address playerWallet, uint amount) public 
+    function transferToPlayerWallet(address ownerAddress, uint amount) public 
       onlyOwner 
-      ourTeamPlayersWalletOnly(playerWallet) returns(bool) 
+      ourTeamPlayersWalletOnly(ownerAddress)
+      returns(bool) 
       {
-        require(amount > 0);
-        require(amount <= this.balance);
+        require(amount > 0 && amount <= this.balance);
         
-        playerWallet.transfer(amount);
+        playerWallets[ownerAddress].transfer(amount);
         
-        LogTransfer(playerWallet, amount);
+        LogTransfer(address(playerWallets[ownerAddress]), amount);
         return true;
     } 
     

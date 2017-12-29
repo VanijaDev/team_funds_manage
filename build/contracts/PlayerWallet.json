@@ -114,7 +114,6 @@
       "type": "function"
     },
     {
-      "constant": false,
       "inputs": [
         {
           "name": "_playerName",
@@ -133,57 +132,9 @@
           "type": "address"
         }
       ],
-      "name": "transfer",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool"
-        }
-      ],
       "payable": true,
       "stateMutability": "payable",
       "type": "constructor"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "walletManager",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "fallback"
-    },
-    {
-      "inputs": [
-        {
-          "name": "to",
-          "type": "address",
-          "indexed": false
-        },
-        {
-          "name": "amount",
-          "type": "uint256",
-          "indexed": false
-        },
-        {
-          "name": "_team",
-          "type": "address"
-        },
-        {
-          "name": "_walletManager",
-          "type": "address"
-        }
-      ],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "event",
-      "anonymous": false,
-      "name": "LogTransfer"
     },
     {
       "payable": true,
@@ -906,7 +857,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 506,
+                                      "referencedDeclaration": 503,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -971,7 +922,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 506,
+                                      "referencedDeclaration": 503,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -1019,7 +970,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 519,
+                                      "referencedDeclaration": 516,
                                       "type": "contract PlayerWallet",
                                       "value": "this"
                                     },
@@ -1075,7 +1026,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 510,
+                              "referencedDeclaration": 507,
                               "type": "function () pure",
                               "value": "revert"
                             },
@@ -1264,7 +1215,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 509,
+                              "referencedDeclaration": 506,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -1400,7 +1351,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 509,
+                              "referencedDeclaration": 506,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -1455,7 +1406,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 519,
+                                      "referencedDeclaration": 516,
                                       "type": "contract PlayerWallet",
                                       "value": "this"
                                     },
@@ -1674,198 +1625,6 @@
             "id": 150,
             "name": "FunctionDefinition",
             "src": "764:268:1"
-          },
-          {
-            "attributes": {
-              "constant": true,
-              "implemented": true,
-              "isConstructor": false,
-              "modifiers": [
-                null
-              ],
-              "name": "getPlayerName",
-              "payable": false,
-              "scope": 167,
-              "stateMutability": "view",
-              "superFunction": null,
-              "visibility": "external"
-            },
-            "children": [
-              {
-                "attributes": {
-                  "parameters": [
-                    null
-                  ]
-                },
-                "children": [],
-                "id": 151,
-                "name": "ParameterList",
-                "src": "1081:2:1"
-              },
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "name": "",
-                      "scope": 158,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "bytes32",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "bytes32",
-                          "type": "bytes32"
-                        },
-                        "id": 152,
-                        "name": "ElementaryTypeName",
-                        "src": "1106:7:1"
-                      }
-                    ],
-                    "id": 153,
-                    "name": "VariableDeclaration",
-                    "src": "1106:7:1"
-                  }
-                ],
-                "id": 154,
-                "name": "ParameterList",
-                "src": "1105:9:1"
-              },
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "functionReturnParameters": 154
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "argumentTypes": null,
-                          "overloadedDeclarations": [
-                            null
-                          ],
-                          "referencedDeclaration": 51,
-                          "type": "bytes32",
-                          "value": "playerName"
-                        },
-                        "id": 155,
-                        "name": "Identifier",
-                        "src": "1132:10:1"
-                      }
-                    ],
-                    "id": 156,
-                    "name": "Return",
-                    "src": "1125:17:1"
-                  }
-                ],
-                "id": 157,
-                "name": "Block",
-                "src": "1115:34:1"
-              }
-            ],
-            "id": 158,
-            "name": "FunctionDefinition",
-            "src": "1059:90:1"
-          },
-          {
-            "attributes": {
-              "constant": true,
-              "implemented": true,
-              "isConstructor": false,
-              "modifiers": [
-                null
-              ],
-              "name": "getTeam",
-              "payable": false,
-              "scope": 167,
-              "stateMutability": "view",
-              "superFunction": null,
-              "visibility": "external"
-            },
-            "children": [
-              {
-                "attributes": {
-                  "parameters": [
-                    null
-                  ]
-                },
-                "children": [],
-                "id": 159,
-                "name": "ParameterList",
-                "src": "1175:2:1"
-              },
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "name": "",
-                      "scope": 166,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "address",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "address",
-                          "type": "address"
-                        },
-                        "id": 160,
-                        "name": "ElementaryTypeName",
-                        "src": "1200:7:1"
-                      }
-                    ],
-                    "id": 161,
-                    "name": "VariableDeclaration",
-                    "src": "1200:7:1"
-                  }
-                ],
-                "id": 162,
-                "name": "ParameterList",
-                "src": "1199:9:1"
-              },
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "functionReturnParameters": 162
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "argumentTypes": null,
-                          "overloadedDeclarations": [
-                            null
-                          ],
-                          "referencedDeclaration": 55,
-                          "type": "address",
-                          "value": "team"
-                        },
-                        "id": 163,
-                        "name": "Identifier",
-                        "src": "1226:4:1"
-                      }
-                    ],
-                    "id": 164,
-                    "name": "Return",
-                    "src": "1219:11:1"
-                  }
-                ],
-                "id": 165,
-                "name": "Block",
-                "src": "1209:28:1"
-              }
-            ],
-            "id": 166,
-            "name": "FunctionDefinition",
-            "src": "1159:78:1"
           }
         ],
         "id": 151,
@@ -1883,5 +1642,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-25T14:33:45.257Z"
+  "updatedAt": "2017-12-29T09:47:17.823Z"
 }
